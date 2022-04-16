@@ -1,4 +1,10 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using SoftStuGroup.Data;
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<SoftStuGroupContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SoftStuGroupContext") ?? throw new InvalidOperationException("Connection string 'SoftStuGroupContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

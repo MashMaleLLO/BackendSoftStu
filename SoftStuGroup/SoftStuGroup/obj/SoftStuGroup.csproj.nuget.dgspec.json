@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\naraw\\Documents\\GitHub\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\SoftStuGroup.csproj": {}
+    "D:\\_GitHub\\Clone\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\SoftStuGroup.csproj": {}
   },
   "projects": {
-    "C:\\Users\\naraw\\Documents\\GitHub\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\SoftStuGroup.csproj": {
+    "D:\\_GitHub\\Clone\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\SoftStuGroup.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\naraw\\Documents\\GitHub\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\SoftStuGroup.csproj",
+        "projectUniqueName": "D:\\_GitHub\\Clone\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\SoftStuGroup.csproj",
         "projectName": "SoftStuGroup",
-        "projectPath": "C:\\Users\\naraw\\Documents\\GitHub\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\SoftStuGroup.csproj",
-        "packagesPath": "C:\\Users\\naraw\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\naraw\\Documents\\GitHub\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\obj\\",
+        "projectPath": "D:\\_GitHub\\Clone\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\SoftStuGroup.csproj",
+        "packagesPath": "C:\\Users\\N115P\\.nuget\\packages\\",
+        "outputPath": "D:\\_GitHub\\Clone\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\naraw\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\N115P\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -43,6 +39,32 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[6.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.4, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.3, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.3.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
