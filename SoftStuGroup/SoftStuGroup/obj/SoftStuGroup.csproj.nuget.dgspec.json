@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\_GitHub\\Clone\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\SoftStuGroup.csproj": {}
+    "C:\\Users\\naraw\\Documents\\GitHub\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\SoftStuGroup.csproj": {}
   },
   "projects": {
-    "D:\\_GitHub\\Clone\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\SoftStuGroup.csproj": {
+    "C:\\Users\\naraw\\Documents\\GitHub\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\SoftStuGroup.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\_GitHub\\Clone\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\SoftStuGroup.csproj",
+        "projectUniqueName": "C:\\Users\\naraw\\Documents\\GitHub\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\SoftStuGroup.csproj",
         "projectName": "SoftStuGroup",
-        "projectPath": "D:\\_GitHub\\Clone\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\SoftStuGroup.csproj",
-        "packagesPath": "C:\\Users\\N115P\\.nuget\\packages\\",
-        "outputPath": "D:\\_GitHub\\Clone\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\obj\\",
+        "projectPath": "C:\\Users\\naraw\\Documents\\GitHub\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\SoftStuGroup.csproj",
+        "packagesPath": "C:\\Users\\naraw\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\naraw\\Documents\\GitHub\\BackendSoftStu\\SoftStuGroup\\SoftStuGroup\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\N115P\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\naraw\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
