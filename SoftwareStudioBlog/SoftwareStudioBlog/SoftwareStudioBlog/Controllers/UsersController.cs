@@ -48,7 +48,7 @@ namespace SoftwareStudioBlog.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
-            if (id != user.ID)
+            if (id != user.Id)
             {
                 return BadRequest();
             }
@@ -82,7 +82,7 @@ namespace SoftwareStudioBlog.Controllers
             _context.User.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.ID }, user);
+            return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
         // DELETE: api/Users/5
@@ -103,7 +103,7 @@ namespace SoftwareStudioBlog.Controllers
 
         private bool UserExists(int id)
         {
-            return _context.User.Any(e => e.ID == id);
+            return _context.User.Any(e => e.Id == id);
         }
     }
 }

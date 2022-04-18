@@ -12,7 +12,7 @@ using SoftwareStudioBlog.Data;
 namespace SoftwareStudioBlog.Migrations
 {
     [DbContext(typeof(SoftwareStudioBlogContext))]
-    [Migration("20220418151214_InitialCreate")]
+    [Migration("20220418155358_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,14 +77,10 @@ namespace SoftwareStudioBlog.Migrations
 
             modelBuilder.Entity("SoftwareStudioBlog.Models.User", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
                     b.Property<string>("ConfirmPassword")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Img")
@@ -106,7 +102,7 @@ namespace SoftwareStudioBlog.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("User");
                 });
