@@ -16,13 +16,13 @@ namespace SoftwareStudioBlog.Models
         public int Id { get; set; }
 
         [Required]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         [Required]
-        public string Detail { get; set; }
+        public string? Detail { get; set; }
 
         [NotMapped]
-        public List<Like> Likes { get; set; }
+        public List<Like>? Likes { get; set; }
 
         public string GetLike()
         {
@@ -55,18 +55,20 @@ namespace SoftwareStudioBlog.Models
     public class Blog
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         [Required]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         [Required]
-        public string TagName { get; set; }
+        public string? TagName { get; set; }
 
         [Required]
-        public string Detail { get; set; }
+        [DataType (DataType.Text)]
+        public string? Detail { get; set; }
 
-        public List<Comment> Comments { get; set; }
+        public List<Comment>? Comments { get; set; }
 
         public string GetComment()
         {
