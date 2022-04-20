@@ -1,20 +1,27 @@
 # BackendSoftStu
 
 ## Work with migrations
-#### To unapply a specific migration(s):
+
+#### Create migration
+- `PM> Add-Migration <migiration-name>`
+
+#### Updates the database to latest migration
+- `PM> Update-Database`
+
+#### Unapply a specific migration(s)
 - `dotnet ef database update <previous-migration-name>`
 or
 - `PM> Update-Database -Migration <previous-migration-name>`
 
-#### To unapply all migrations:
+#### Unapply all migrations
 - `dotnet ef database update 0`
 or
 - `PM> Update-Database -Migration 0`
 
-#### To remove last migration:
+#### Remove last migration
 - `dotnet ef migrations remove`
 or
 - `PM> Remove-Migration`
 
-#### To remove all migrations:
+#### Remove all migrations
 - just remove Migrations folder.
