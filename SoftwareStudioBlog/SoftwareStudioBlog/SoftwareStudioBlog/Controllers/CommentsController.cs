@@ -28,9 +28,10 @@ namespace SoftwareStudioBlog.Controllers
         // GET: api/Comments
         // See all comments in the blog
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Comment>>> GetComment()
+        public async Task<ActionResult<IEnumerable<Comment>>> GetAllComments()
         {
-            var comments = (from x in _context.Comment where x.IsHidden == "Fasle" select x).ToListAsync();
+            var comments = (from x in _context.Comment where x.IsHidden == "False" select x).ToListAsync();
+
             return await comments;
         }
 
@@ -77,17 +78,18 @@ namespace SoftwareStudioBlog.Controllers
             return await _context.Comment.ToListAsync();
         }
 
-        // GET: api/Comments/{BlogId}
+        // GET: api/Comments/Blog/{BlogId}
         // Can see all comment in the blogs by Blogs ID
-        [HttpGet("{blogId}")]
+        [HttpGet("Blog/{blogId}")]
         public async Task<ActionResult<IEnumerable<Comment>>> GetCommentsByBlogId(int blogId)
         {
             var comments = (from x in _context.Comment where x.BlogId == blogId && x.IsHidden == "False" select x).ToListAsync();
+            
             return await comments;
         }
 
 
-        // ********** Comments Update ***********
+        // ********** Update Comments ***********
 
         // PUT: api/Comments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -121,7 +123,7 @@ namespace SoftwareStudioBlog.Controllers
             }
         }
 
-        // PUT: api/Comments/{commentId}
+        // PUT: api/Comments/hide/{commentId}
         // Hide comments by Admin
 
         [HttpPut("hide/{id}")]
@@ -164,7 +166,7 @@ namespace SoftwareStudioBlog.Controllers
 
         }
 
-        // PUT: api/Comments/{commentId}
+        // PUT: api/Comments/unhidden/{commentId}
         // Unhidden comments by Admin
         [HttpPut("unhidden/{id}")]
         public async Task<IActionResult> UnhiddenComment(int id, User u)
@@ -215,12 +217,13 @@ namespace SoftwareStudioBlog.Controllers
         {
             var user = (from x in _context.User where x.Username == comment.Username select x).SingleOrDefault();
 
+            //if (true)
             if (user.IsBan == "False" || user.IsAdmin == "True")
             {
-              _context.Comment.Add(comment);
-              await _context.SaveChangesAsync();
+                _context.Comment.Add(comment);
+                await _context.SaveChangesAsync();
 
-              return CreatedAtAction("GetComment", new { id = comment.Id }, comment);  
+                return CreatedAtAction("GetComment", new { id = comment.Id }, comment);  
             }
             else
             {
@@ -253,9 +256,7 @@ namespace SoftwareStudioBlog.Controllers
                 {
                     return BadRequest("You don't have any permission to this comment.");
                 }
-                
             }
-
         }
 
         private bool CommentExists(int id)

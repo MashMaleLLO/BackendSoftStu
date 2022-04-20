@@ -26,6 +26,8 @@ namespace SoftwareStudioBlog.Controllers
             _context = context;
         }
 
+        // ******* User Get ********
+
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUser()
@@ -46,6 +48,8 @@ namespace SoftwareStudioBlog.Controllers
 
             return user;
         }
+
+        // ******* User Update *******
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -77,6 +81,9 @@ namespace SoftwareStudioBlog.Controllers
 
             return NoContent();
         }
+
+
+        //  ********* Add User **********
 
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
