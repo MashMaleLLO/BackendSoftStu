@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SoftwareStudioBlog.Data;
 using SoftwareStudioBlog.Models;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace SoftwareStudioBlog.Controllers
 {
@@ -79,31 +83,180 @@ namespace SoftwareStudioBlog.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-            _context.User.Add(user);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            int userId = (from x in _context.User where x.Username == user.Username select x.Id).SingleOrDefault();
+
+            if (userId > 0)
+            {
+
+                return BadRequest();
+            }
+            else
+            {
+                _context.User.Add(user);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            }
         }
 
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        // POST: api/Users/Admin
+        [HttpPost("Admin")]
+        public async Task<ActionResult<User>> PostAdmin(User user)
+        {
+
+            int userId = (from x in _context.User where x.Username == user.Username select x.Id).SingleOrDefault();
+
+            if (userId > 0)
+            {
+
+                return BadRequest("This Username is Taken.");
+            }
+            else
+            {
+                user.IsAdmin = "True";
+                _context.User.Add(user);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            }
+        }
+
+        // Ban user by ID:
+        // api/Users/ban/{id}
+
+        [HttpPut("ban/{id}")]
+        public async Task<IActionResult> BanUser(int id, User u)
         {
             var user = await _context.User.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
+            else
+            {
+                if(u.IsAdmin == "True")
+                {
+                    user.IsBan = "True";
+                    _context.Entry(user).State = EntityState.Modified;
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!UserExists(id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return Ok("You are ADMIN and Bsanned user");
+                }
+                else
+                {
+                    return BadRequest("You don't have a permission to do this Action.");
+                }
+            }
+        }
 
-            _context.User.Remove(user);
-            await _context.SaveChangesAsync();
+        // Unbanned user by ID:
+        // api/Users/unbanned/{id}
 
-            return NoContent();
+        [HttpPut("unbanned/{id}")]
+        public async Task<IActionResult> UnbannedUser(int id, User u)
+        {
+            var user = await _context.User.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                if (u.IsAdmin == "True")
+                {
+                    user.IsBan = "False";
+                    _context.Entry(user).State = EntityState.Modified;
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!UserExists(id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return Ok("You are ADMIN and Unbanned user");
+                }
+                else
+                {
+                    return BadRequest("You don't have a permission to do this Action.");
+                }
+            }
+        }
+
+
+        // DELETE: api/Users/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id, User u)
+        {
+            var user = await _context.User.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                if (u.IsAdmin == "True" || u.Id == id)
+                {
+/*                    //// Show delete user
+                    System.Diagnostics.Debug.WriteLine($"delete this --> ", user);
+*/
+                    _context.User.Remove(user);
+                    await _context.SaveChangesAsync();
+
+                    return NoContent();
+                }
+                else
+                {
+                    return BadRequest("You do not have permission to delete this User.");
+                }   
+            }
         }
 
         private bool UserExists(int id)
         {
             return _context.User.Any(e => e.Id == id);
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(User user)
+        {
+            int userId = (from x in _context.User where x.Username == user.Username select x.Id).SingleOrDefault();
+            var u = await _context.User.FindAsync(userId);
+            if (u == null)
+            {
+                return NotFound("Username not Found");
+            }
+            else
+            {
+                if (u.Password == user.Password)
+                {
+                    return Ok(u);
+                }
+
+                Console.WriteLine("Boommmmm!!! 5555");
+                return BadRequest("Pass not Match");
+            }
         }
     }
 }

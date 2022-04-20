@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 
 namespace SoftwareStudioBlog.Models
 {
-    public class Blog
+    public class Comment
     {
         [Key]
         [Required]
@@ -14,14 +15,12 @@ namespace SoftwareStudioBlog.Models
         [Required]
         public string Username { get; set; } = string.Empty;
 
-        public string Tag { get; set; } = string.Empty;
-
-        [DataType(DataType.ImageUrl)]
-        public string Image { get; set; } = string.Empty;
+        [Required]
+        public int BlogId { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
-        public string Detail { get; set; } = string.Empty;
+        public string Message { get; set; } = string.Empty;
 
         public string IsHidden { get; set; } = "False";
 

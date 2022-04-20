@@ -7,7 +7,7 @@ namespace SoftwareStudioBlog.Models
     {
         [Key]
         [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
@@ -30,12 +30,8 @@ namespace SoftwareStudioBlog.Models
         [DataType(DataType.ImageUrl)]
         public string? Img { get; set; }
 
-        [Required]
-        public string? IsAdmin { get; set; }
+        public string? IsAdmin { get; set; } = "False";
 
-        [Required]
-        public string? IsBan { get; set; }
-
-
+        public string? IsBan { get; set; } = "False";
     }
 }
