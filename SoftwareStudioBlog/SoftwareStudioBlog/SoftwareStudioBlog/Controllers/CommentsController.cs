@@ -220,6 +220,15 @@ namespace SoftwareStudioBlog.Controllers
             //if (true)
             if (user.IsBan == "False" || user.IsAdmin == "True")
             {
+                /*DateTime dt = DateTime.Now;
+
+                string stringDateTime = dt.ToString("F");
+                DateTime createdTime = Convert.ToDateTime(stringDateTime);
+                comment.CreatedDate = createdTime;
+
+                Console.WriteLine(createdTime);
+                Console.WriteLine(stringDateTime);*/
+
                 _context.Comment.Add(comment);
                 await _context.SaveChangesAsync();
 

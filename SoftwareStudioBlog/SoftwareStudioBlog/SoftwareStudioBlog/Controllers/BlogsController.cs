@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SoftwareStudioBlog.Data;
 using SoftwareStudioBlog.Models;
+using SoftwareStudioBlog.Display;
+using Newtonsoft.Json.Linq;
 
 namespace SoftwareStudioBlog.Controllers
 {
@@ -33,6 +35,58 @@ namespace SoftwareStudioBlog.Controllers
             var blogs = (from x in _context.Blog where x.IsHidden == "False" select x).ToListAsync();
             return await blogs;
         }
+
+        // GET: api/Blogs/Display
+        [HttpGet("Display")]
+        public async Task<ActionResult<IEnumerable<DisplayBlog>>> GetDisplay()
+        {
+            var blogs = (from x in _context.Blog where x.IsHidden == "False" select x).ToList();
+
+            List<DisplayBlog> dps = new List<DisplayBlog>();
+
+            foreach (var blog in blogs)
+            {
+                List<DisplayComment> dcm = new List<DisplayComment>();
+                var comment = (from x in _context.Comment where x.BlogId == blog.Id && x.IsHidden == "False" select x).ToList();
+                var likeBlog = (from x in _context.LikeBlog where x.BlogId == blog.Id select x).ToList();
+
+                foreach (var com in comment)
+                {
+                    var likeCom = (from x in _context.LikeComment where x.CommentId == com.Id select x).ToList();
+                    DisplayComment cm = new DisplayComment
+                    {
+                        Id = com.Id,
+                        Username = com.Username,
+                        BlogId = com.BlogId,
+                        Message = com.Message,
+                        IsHidden = com.IsHidden,
+                        Date = com.CreatedDate,
+                        Likes = likeCom.Count
+                    };
+
+                    dcm.Add(cm);
+                }
+
+                DisplayBlog dp = new DisplayBlog
+                {
+                    Id = blog.Id,
+                    Username = blog.Username,
+                    Tag = blog.Tag,
+                    Img = blog.Image,
+                    Detail = blog.Detail,
+                    IsHidden = blog.IsHidden,
+                    Date = blog.CreatedDate
+                };
+
+                dp.Comments.AddRange(dcm);
+                dp.Likes = likeBlog.Count;
+
+                dps.Add(dp);
+            }
+
+            return dps;
+        }
+        
 
         // GET: api/Blogs/5
         // See specific blog
@@ -60,10 +114,14 @@ namespace SoftwareStudioBlog.Controllers
 
         // GET: api/Blogs/MyBlog/{userId}
         // See all my Blog
-        [HttpGet("MyBlog/{id}")]
-        public async Task<ActionResult<IEnumerable<Blog>>> MyGetBlogs(int id)
+        [HttpGet("MyBlog/{userId}")]
+        public async Task<ActionResult<IEnumerable<Blog>>> MyGetBlogs(int userId)
         {
-            var user = await _context.User.FindAsync(id);
+            var user = await _context.User.FindAsync(userId);
+            if (user == null)
+            {
+                return BadRequest("You did mot login or register yet.");
+            }
             var blogs = (from x in _context.Blog where x.IsHidden == "False" && x.Username == user.Username select x).ToListAsync();
             
             return await blogs;
@@ -82,8 +140,11 @@ namespace SoftwareStudioBlog.Controllers
         // PUT: api/Blogs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBlog(int id, Blog blog)
+        public async Task<IActionResult> PutBlog(int id,  Blog blog)
         {
+/*            Blog blog = data["blogData"].ToObject<Blog>();
+            User user = data["userData"].ToObject<User>();*/
+            //string username = data["username"].ToString();
 
             if (!BlogExists(id) || id != blog.Id)
             {
@@ -111,6 +172,8 @@ namespace SoftwareStudioBlog.Controllers
                 return Ok($"Your Blog {id} have been Edited.");
             }
         }
+
+
 
         // PUT: api/Blogs/hide/{blogId}
         // Hide blogs by Admin
@@ -210,6 +273,11 @@ namespace SoftwareStudioBlog.Controllers
 
             if (user.IsBan == "False" || user.IsAdmin == "True")
             {
+/*                DateTime dt = DateTime.Now;
+                string stringDateTime = dt.ToString("F");
+                DateTime createdTime = Convert.ToDateTime(stringDateTime);
+                blog.CreatedDate = createdTime;*/
+
                 _context.Blog.Add(blog);
                 await _context.SaveChangesAsync();
 

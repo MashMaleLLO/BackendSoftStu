@@ -22,7 +22,10 @@ namespace SoftwareStudioBlog.Controllers
             _context = context;
         }
 
+        // ********** Like Get ***********
+
         // GET: api/LikeBlogs
+        // Get all LikeBlogs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<LikeBlog>>> GetLikeBlog()
         {
@@ -30,6 +33,7 @@ namespace SoftwareStudioBlog.Controllers
         }
 
         // GET: api/LikeBlogs/5
+        // Get only one
         [HttpGet("{id}")]
         public async Task<ActionResult<LikeBlog>> GetLikeBlog(int id)
         {
@@ -42,6 +46,18 @@ namespace SoftwareStudioBlog.Controllers
 
             return likeBlog;
         }
+
+        // GET: api/LikeBlogs/getLikeBlog/{blogId}
+        // Get like by blogID
+        [HttpGet("getLikeBlog/{blogId}")]
+        public async Task<ActionResult<IEnumerable<LikeBlog>>> GetLikeByBlogId(int blogId)
+        {
+            var likeBlogs = (from x in _context.LikeBlog where x.BlogId == blogId select x).ToListAsync();
+
+            return await likeBlogs;
+        }
+
+        // ******** update like ********
 
         // PUT: api/LikeBlogs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -74,31 +90,58 @@ namespace SoftwareStudioBlog.Controllers
             return NoContent();
         }
 
+
+
+        // ********** add like ***********
+
+        // like and unlike here
+
         // POST: api/LikeBlogs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<LikeBlog>> PostLikeBlog(LikeBlog likeBlog)
         {
-            _context.LikeBlog.Add(likeBlog);
-            await _context.SaveChangesAsync();
+            var blog = await _context.Blog.FindAsync(likeBlog.BlogId);
+            var like = (from x in _context.LikeBlog where x.UserId == likeBlog.UserId && x.BlogId == likeBlog.BlogId select x).SingleOrDefault();
 
-            return CreatedAtAction("GetLikeBlog", new { id = likeBlog.Id }, likeBlog);
+            if (like != null)
+            {
+                string printResult = $"User {like.UserId} unlike blog {like.BlogId}";
+
+                _context.LikeBlog.Remove(like);
+                await _context.SaveChangesAsync();
+
+                return Ok(printResult);
+            }
+            else
+            {
+                _context.LikeBlog.Add(likeBlog);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetLikeBlog", new { id = likeBlog.Id }, likeBlog);
+            }
+
         }
 
-        // DELETE: api/LikeBlogs/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteLikeBlog(int id)
+
+        // ********** delete like ***********
+
+        // DELETE: api/LikeBlogs/{userId}
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> DeleteLikeBlog(int userId, Blog blog)
         {
-            var likeBlog = await _context.LikeBlog.FindAsync(id);
+            var likeBlog = (from x in _context.LikeBlog where x.UserId == userId && x.BlogId == blog.Id select x).SingleOrDefault();
             if (likeBlog == null)
             {
                 return NotFound();
             }
+            else
+            {
+                _context.LikeBlog.Remove(likeBlog);
+                await _context.SaveChangesAsync();
 
-            _context.LikeBlog.Remove(likeBlog);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+                return NoContent();
+            }
         }
 
         private bool LikeBlogExists(int id)

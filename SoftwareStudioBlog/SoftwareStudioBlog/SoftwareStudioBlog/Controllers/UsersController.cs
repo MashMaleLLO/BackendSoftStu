@@ -60,26 +60,29 @@ namespace SoftwareStudioBlog.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(user).State = EntityState.Modified;
-
-            try
+            else
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                _context.Entry(user).State = EntityState.Modified;
 
-            return NoContent();
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return NoContent();
+                
+            }
         }
 
 
@@ -96,7 +99,7 @@ namespace SoftwareStudioBlog.Controllers
             if (userId > 0)
             {
 
-                return BadRequest();
+                return BadRequest("This username is already taken.");
             }
             else
             {
@@ -245,6 +248,10 @@ namespace SoftwareStudioBlog.Controllers
             return _context.User.Any(e => e.Id == id);
         }
 
+
+        // #################### Login here!! #########################
+
+        // POST: https://localhost:7198/api/Users/Login
         [HttpPost("Login")]
         public async Task<IActionResult> Login(User user)
         {
@@ -260,9 +267,12 @@ namespace SoftwareStudioBlog.Controllers
                 {
                     return Ok(u);
                 }
-
-                Console.WriteLine("Boommmmm!!! 5555");
-                return BadRequest("Pass not Match");
+                else
+                {
+                    Console.WriteLine("Boommmmm!!! 5555");
+                    return BadRequest("Pass not Match");
+       
+                }
             }
         }
     }
