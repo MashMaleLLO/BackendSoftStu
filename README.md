@@ -1,8 +1,11 @@
 # BackendSoftStu
 
-## Install 
+## Install NuGet Package
+From the Tools menu > select NuGet Package Manager > Package Manager Console (PMC).
+- `Install-Package Microsoft.EntityFrameworkCore.Design`
+- `Install-Package Microsoft.EntityFrameworkCore.SqlServer`
 
-## Work with migrations
+## Work with Migrations
 
 #### Create migration
 - `PM> Add-Migration <migiration-name>`
