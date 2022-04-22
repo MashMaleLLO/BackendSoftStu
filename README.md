@@ -1,5 +1,7 @@
 # BackendSoftStu
 
+## Install 
+
 ## Work with migrations
 
 #### Create migration

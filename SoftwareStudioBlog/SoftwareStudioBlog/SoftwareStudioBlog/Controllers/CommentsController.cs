@@ -96,30 +96,41 @@ namespace SoftwareStudioBlog.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutComment(int id, Comment comment)
         {
-            if (!CommentExists(id) ||id != comment.Id)
+            var com = await _context.Comment.FindAsync(id);
+            if (com == null)
             {
-                return BadRequest("This Comment does not exit or CommentId didn't match.");
+                return BadRequest("This Comment does not exist.");
             }
             else
-            {
-                _context.Entry(comment).State = EntityState.Modified;
+            {   
+                if(comment.Username == com.Username)
+                {
+                    com.Message = comment.Message;
+                    com.CreatedDate = DateTime.Now;
+                    _context.Entry(com).State = EntityState.Modified;
 
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CommentExists(id))
+                    try
                     {
-                        return NotFound();
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!CommentExists(id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return Ok($"Your Comment {id} have been Edited.");
                 }
-                return Ok($"Your Comment {id} have been Edited.");
+                else
+                {
+                    return BadRequest("You don't have permission with this comment.");
+                    }
+                
             }
         }
 
@@ -250,7 +261,7 @@ namespace SoftwareStudioBlog.Controllers
             var comment = await _context.Comment.FindAsync(id);
             if (comment == null)
             {
-                return NotFound();
+                return NotFound("This comment is doesn't exist.");
             }
             else
             {

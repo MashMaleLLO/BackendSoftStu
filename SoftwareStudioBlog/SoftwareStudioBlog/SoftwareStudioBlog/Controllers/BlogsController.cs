@@ -112,6 +112,50 @@ namespace SoftwareStudioBlog.Controllers
             }
         }
 
+        //GET: api/Blogs/Display/{blogId}
+        //Display Specific blog
+        [HttpGet("Display/{blogId}")]
+        public async Task<ActionResult<DisplayBlog>> DisplayIdBlog(int blogId)
+        {
+            var blog = (from x in _context.Blog where x.Id == blogId && x.IsHidden == "False" select x).SingleOrDefault();
+            if (blog == null)
+            {
+                return NotFound("This blog doesn't exist Or This blog is Hiddened by Admin.");
+            }
+            else
+            {
+                var comments = (from x in _context.Comment where x.BlogId == blogId select x).ToList();
+                var likeBlogs = (from x in _context.LikeBlog where x.BlogId == blogId select x).ToList();
+                DisplayBlog db = new DisplayBlog();
+                List<DisplayComment> dcms = new List<DisplayComment>();
+                foreach (var comment in comments)
+                {
+                    var likeCom = (from x in _context.LikeComment where x.CommentId == comment.Id select x).ToList();
+                    DisplayComment cm = new DisplayComment
+                    {
+                        Id = comment.Id,
+                        Username = comment.Username,
+                        BlogId = blogId,
+                        Message = comment.Message,
+                        IsHidden = comment.IsHidden,
+                        Date = comment.CreatedDate,
+                        Likes = likeCom.Count
+                    };
+                    dcms.Add(cm);
+                }
+                db.Id = blogId;
+                db.Username = blog.Username;
+                db.Tag = blog.Tag;
+                db.Img = blog.Image;
+                db.Detail = blog.Detail;
+                db.IsHidden = blog.IsHidden;
+                db.Date = blog.CreatedDate;
+                db.Comments = dcms;
+                db.Likes = likeBlogs.Count;
+                return db;
+            }
+        }
+
         // GET: api/Blogs/MyBlog/{userId}
         // See all my Blog
         [HttpGet("MyBlog/{userId}")]
@@ -120,11 +164,65 @@ namespace SoftwareStudioBlog.Controllers
             var user = await _context.User.FindAsync(userId);
             if (user == null)
             {
-                return BadRequest("You did mot login or register yet.");
+                return BadRequest("You did not register yet or this user is doesn't exist.");
             }
             var blogs = (from x in _context.Blog where x.IsHidden == "False" && x.Username == user.Username select x).ToListAsync();
             
             return await blogs;
+        }
+
+        // GET : api/Blogs/Display/MyBlog/{userId}
+        [HttpGet("Display/MyBlog/{userId}")]
+        public async Task<ActionResult<IEnumerable<DisplayBlog>>> DisplayMyBlogs(int userId)
+        {
+            var user = await _context.User.FindAsync(userId);
+            List<DisplayBlog> dps = new List<DisplayBlog>();
+            if (user == null)
+            {
+                return BadRequest("You did not register yet or this user is doesn't exist.");
+            }
+            var blogs = (from x in _context.Blog where x.IsHidden == "False" && x.Username == user.Username select x).ToListAsync();
+            foreach (var blog in await blogs)
+            {
+                List<DisplayComment> dcm = new List<DisplayComment>();
+                var comment = (from x in _context.Comment where x.BlogId == blog.Id && x.IsHidden == "False" select x).ToList();
+                var likeBlog = (from x in _context.LikeBlog where x.BlogId == blog.Id select x).ToList();
+
+                foreach (var com in comment)
+                {
+                    var likeCom = (from x in _context.LikeComment where x.CommentId == com.Id select x).ToList();
+                    DisplayComment cm = new DisplayComment
+                    {
+                        Id = com.Id,
+                        Username = com.Username,
+                        BlogId = com.BlogId,
+                        Message = com.Message,
+                        IsHidden = com.IsHidden,
+                        Date = com.CreatedDate,
+                        Likes = likeCom.Count
+                    };
+
+                    dcm.Add(cm);
+                }
+
+                DisplayBlog dp = new DisplayBlog
+                {
+                    Id = blog.Id,
+                    Username = blog.Username,
+                    Tag = blog.Tag,
+                    Img = blog.Image,
+                    Detail = blog.Detail,
+                    IsHidden = blog.IsHidden,
+                    Date = blog.CreatedDate
+                };
+
+                dp.Comments.AddRange(dcm);
+                dp.Likes = likeBlog.Count;
+
+                dps.Add(dp);
+            }
+
+            return dps;
         }
 
         // GET : api/Blogs/Admin
@@ -135,41 +233,115 @@ namespace SoftwareStudioBlog.Controllers
             return await _context.Blog.ToListAsync();
         }
 
+
+        // GET : api/Blogs/Display/Admin
+        [HttpGet("Display/Admin")]
+        public async Task<ActionResult<IEnumerable<DisplayBlog>>> AdminGetDisplay(User u)
+        {
+            if(u.IsAdmin == "True")
+            { 
+                var blogs = (from x in _context.Blog select x).ToList();
+
+                List<DisplayBlog> dps = new List<DisplayBlog>();
+
+                foreach (var blog in blogs)
+                {
+                    List<DisplayComment> dcm = new List<DisplayComment>();
+                    var comment = (from x in _context.Comment where x.BlogId == blog.Id select x).ToList();
+                    var likeBlog = (from x in _context.LikeBlog where x.BlogId == blog.Id select x).ToList();
+
+                    foreach (var com in comment)
+                    {
+                        var likeCom = (from x in _context.LikeComment where x.CommentId == com.Id select x).ToList();
+                        DisplayComment cm = new DisplayComment
+                        {
+                            Id = com.Id,
+                            Username = com.Username,
+                            BlogId = com.BlogId,
+                            Message = com.Message,
+                            IsHidden = com.IsHidden,
+                            Date = com.CreatedDate,
+                            Likes = likeCom.Count
+                        };
+
+                        dcm.Add(cm);
+                    }
+
+                    DisplayBlog dp = new DisplayBlog
+                    {
+                        Id = blog.Id,
+                        Username = blog.Username,
+                        Tag = blog.Tag,
+                        Img = blog.Image,
+                        Detail = blog.Detail,
+                        IsHidden = blog.IsHidden,
+                        Date = blog.CreatedDate
+                    };
+
+                    dp.Comments.AddRange(dcm);
+                    dp.Likes = likeBlog.Count;
+
+                    dps.Add(dp);
+                }
+
+                return dps;
+            }
+            else
+            {
+                return BadRequest("You don't have permission with this action");
+            }
+        }
+
+
         /// ************* update blogs *************
 
         // PUT: api/Blogs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBlog(int id,  Blog blog)
+        public async Task<IActionResult> PutBlog(int id, Blog blog)
         {
-/*            Blog blog = data["blogData"].ToObject<Blog>();
-            User user = data["userData"].ToObject<User>();*/
-            //string username = data["username"].ToString();
+            //string blog = data[0];
+            //Blog blog = data["blogData"].ToObject<Blog>();
+            // string username = data["username"].ToString();
 
-            if (!BlogExists(id) || id != blog.Id)
+            if (!BlogExists(id))
             {
                 return BadRequest("This Blog does not exit or blogId didn't match.");
             }
             else
             {
-                _context.Entry(blog).State = EntityState.Modified;
+                var b = await _context.Blog.FindAsync(id);
+                if (b.Username == blog.Username)
+                {
+                    b.Tag = blog.Tag;
+                    b.Image = blog.Image;
+                    b.Detail = blog.Detail;
+                    b.IsHidden = blog.IsHidden;
+                    b.CreatedDate = DateTime.Now;
 
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BlogExists(id))
+                    _context.Entry(b).State = EntityState.Modified;
+
+                    try
                     {
-                        return NotFound();
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!BlogExists(id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return Ok($"Your Blog {id} have been Edited.");
                 }
-                return Ok($"Your Blog {id} have been Edited.");
+                else
+                {
+                    return BadRequest("You don't have permisson to this blog.");
+                }
             }
         }
 
@@ -299,7 +471,7 @@ namespace SoftwareStudioBlog.Controllers
             var blog = await _context.Blog.FindAsync(id);
             if (blog == null)
             {
-                return NotFound();
+                return NotFound("This blog is doesn't exist");
             }
             else
             {
@@ -315,7 +487,6 @@ namespace SoftwareStudioBlog.Controllers
                     return BadRequest("You don't have any permission to this blog.");
                 }
              }
-            
         }
 
         private bool BlogExists(int id)

@@ -266,3 +266,6 @@ D:\_GitHub\Clone\BackendSoftStu\SoftwareStudioBlog\SoftwareStudioBlog\SoftwareSt
 D:\_GitHub\Clone\BackendSoftStu\SoftwareStudioBlog\SoftwareStudioBlog\SoftwareStudioBlog\obj\Debug\net6.0\SoftwareStudioBlog.pdb
 D:\_GitHub\Clone\BackendSoftStu\SoftwareStudioBlog\SoftwareStudioBlog\SoftwareStudioBlog\obj\Debug\net6.0\SoftwareStudioBlog.genruntimeconfig.cache
 D:\_GitHub\Clone\BackendSoftStu\SoftwareStudioBlog\SoftwareStudioBlog\SoftwareStudioBlog\obj\Debug\net6.0\ref\SoftwareStudioBlog.dll
+D:\_GitHub\Clone\BackendSoftStu\SoftwareStudioBlog\SoftwareStudioBlog\SoftwareStudioBlog\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\_GitHub\Clone\BackendSoftStu\SoftwareStudioBlog\SoftwareStudioBlog\SoftwareStudioBlog\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:\_GitHub\Clone\BackendSoftStu\SoftwareStudioBlog\SoftwareStudioBlog\SoftwareStudioBlog\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll

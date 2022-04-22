@@ -37,16 +37,32 @@ namespace SoftwareStudioBlog.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<User>> GetUser(int id, User u)
         {
             var user = await _context.User.FindAsync(id);
-
-            if (user == null)
+            if (u.Id == id)
             {
-                return NotFound();
-            }
+                if (user == null)
+                {
+                    return NotFound();
+                }
 
-            return user;
+                return user;
+            }
+            else
+            {
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                User du = new User
+                {
+                    Username = user.Username,
+                    Img = user.Img,
+                    IsBan = user.IsBan
+                };
+                return du;
+            }
         }
 
         // ******* User Update *******
@@ -58,38 +74,81 @@ namespace SoftwareStudioBlog.Controllers
         {
             if (id != user.Id)
             {
-                return BadRequest();
+                return BadRequest("This user doesn't exist or you can't edit this user");
             }
             else
             {
-                _context.Entry(user).State = EntityState.Modified;
+                var u = await _context.User.FindAsync(id);
+                if(u.Password == user.Password)
+                {
+                    _context.Entry(user).State = EntityState.Modified;
 
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!UserExists(id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+
+                    return Ok("User data have been edited.");
+                }
+                else
+                {
+                    return BadRequest("Password Does not match.");
+                }
+                
+                
+            }
+        }
+
+
+        // PUT : api/Users/UpdatePassword/{oldPassword}
+        [HttpPut("UpdatePassword/{oldPassword}")]
+        public async Task<IActionResult> UpdatePassword(string oldPassword, User u)
+        { 
+            var user = await _context.User.FindAsync(u.Id);
+            if (user.Password == oldPassword)
+            {
+                user.Password = u.Password;
+                user.ConfirmPassword = u.Password;
+                _context.Entry(user).State = EntityState.Modified;
                 try
                 {
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(id))
+                    if (!UserExists(u.Id))
                     {
-                        return NotFound();
+                        return NotFound("User didn't exist.");
                     }
                     else
                     {
                         throw;
                     }
                 }
-
-                return NoContent();
-                
+                return Ok("Password has changed.");
+            }
+            else
+            {
+                return BadRequest("Your password didn't match the old one.");
             }
         }
 
 
-        //  ********* Add User **********
+            //  ********* Add User **********
 
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+            // POST: api/Users
+            // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
@@ -141,7 +200,7 @@ namespace SoftwareStudioBlog.Controllers
             var user = await _context.User.FindAsync(id);
             if (user == null)
             {
-                return NotFound();
+                return NotFound("User doesn't exist.");
             }
             else
             {
@@ -164,7 +223,7 @@ namespace SoftwareStudioBlog.Controllers
                             throw;
                         }
                     }
-                    return Ok("You are ADMIN and Bsanned user");
+                    return Ok("You are ADMIN and Banned user");
                 }
                 else
                 {
@@ -222,7 +281,7 @@ namespace SoftwareStudioBlog.Controllers
             var user = await _context.User.FindAsync(id);
             if (user == null)
             {
-                return NotFound();
+                return NotFound("User doesn't exist.");
             }
             else
             {
@@ -234,7 +293,7 @@ namespace SoftwareStudioBlog.Controllers
                     _context.User.Remove(user);
                     await _context.SaveChangesAsync();
 
-                    return NoContent();
+                    return Ok("User has been delete.");
                 }
                 else
                 {
