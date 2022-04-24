@@ -73,41 +73,33 @@ namespace SoftwareStudioBlog.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
-            if (id != user.Id)
+            var u = await _context.User.FindAsync(id);
+            if (u.Password == user.Password)
             {
-                return BadRequest("This user doesn't exist or you can't edit this user");
+                u.Img = user.Img;
+                _context.Entry(u).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return Ok("User data have been edited.");
             }
             else
             {
-                var u = await _context.User.FindAsync(id);
-                if(u.Password == user.Password)
-                {
-                    _context.Entry(user).State = EntityState.Modified;
-
-                    try
-                    {
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!UserExists(id))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-
-                    return Ok("User data have been edited.");
-                }
-                else
-                {
-                    return BadRequest("Password Does not match.");
-                }
-                
-                
+                return BadRequest("Password Does not match.");
             }
         }
 
