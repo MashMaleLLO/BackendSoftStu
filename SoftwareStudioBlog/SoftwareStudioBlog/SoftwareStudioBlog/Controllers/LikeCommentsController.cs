@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SoftwareStudioBlog.Data;
 using SoftwareStudioBlog.Models;
-
+using System.Web.Http.Cors;
 namespace SoftwareStudioBlog.Controllers
 {
     [Route("api/[controller]")]

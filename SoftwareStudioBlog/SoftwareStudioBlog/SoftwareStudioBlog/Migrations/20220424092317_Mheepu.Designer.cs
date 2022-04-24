@@ -12,8 +12,8 @@ using SoftwareStudioBlog.Data;
 namespace SoftwareStudioBlog.Migrations
 {
     [DbContext(typeof(SoftwareStudioBlogContext))]
-    [Migration("20220420222548_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220424092317_Mheepu")]
+    partial class Mheepu
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

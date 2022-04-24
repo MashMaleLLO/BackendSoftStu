@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SoftwareStudioBlog.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Mheepu : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
