@@ -1,4 +1,5 @@
-# BackendSoftStu
+# Software Studio 
+## Blog Project - Backend
 
 ## Install NuGet Package
 From the Tools menu > select NuGet Package Manager > Package Manager Console (PMC).
