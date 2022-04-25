@@ -18,6 +18,9 @@ namespace SoftwareStudioBlog.Models
         [Required]
         public int BlogId { get; set; }
 
+        [DataType(DataType.ImageUrl)]
+        public string Img { get; set; } = string.Empty;
+
         [Required]
         [DataType(DataType.Text)]
         public string Message { get; set; } = string.Empty;

@@ -12,6 +12,7 @@ namespace SoftwareStudioBlog.Display
         public string Message { get; set; }
         public string IsHidden { get; set; }
         public DateTime Date { get; set; }
+        public string Img { get; set; }
         public int Likes { get; set; }
     }
 }

@@ -61,6 +61,7 @@ namespace SoftwareStudioBlog.Controllers
                         Message = com.Message,
                         IsHidden = com.IsHidden,
                         Date = com.CreatedDate,
+                        Img = com.Img,
                         Likes = likeCom.Count
                     };
 
@@ -139,6 +140,7 @@ namespace SoftwareStudioBlog.Controllers
                         Message = comment.Message,
                         IsHidden = comment.IsHidden,
                         Date = comment.CreatedDate,
+                        Img = comment.Img,
                         Likes = likeCom.Count
                     };
                     dcms.Add(cm);
@@ -199,6 +201,7 @@ namespace SoftwareStudioBlog.Controllers
                         Message = com.Message,
                         IsHidden = com.IsHidden,
                         Date = com.CreatedDate,
+                        Img = com.Img,
                         Likes = likeCom.Count
                     };
 
@@ -261,6 +264,7 @@ namespace SoftwareStudioBlog.Controllers
                             Message = com.Message,
                             IsHidden = com.IsHidden,
                             Date = com.CreatedDate,
+                            Img = com.Img,
                             Likes = likeCom.Count
                         };
 

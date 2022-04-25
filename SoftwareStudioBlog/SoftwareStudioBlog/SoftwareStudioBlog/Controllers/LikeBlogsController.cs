@@ -50,11 +50,16 @@ namespace SoftwareStudioBlog.Controllers
         // GET: api/LikeBlogs/getLikeBlog/{blogId}
         // Get like by blogID
         [HttpGet("getLikeBlog/{blogId}")]
-        public async Task<ActionResult<IEnumerable<LikeBlog>>> GetLikeByBlogId(int blogId)
+        public async Task<ActionResult<List<int>>> GetLikeByBlogId(int blogId)
         {
-            var likeBlogs = (from x in _context.LikeBlog where x.BlogId == blogId select x).ToListAsync();
+            List<int> likes = new List<int>();
+            var likeBlogs = await (from x in _context.LikeBlog where x.BlogId == blogId select x).ToListAsync();
+            foreach (var likeBlog in likeBlogs)
+            {
+                likes.Add(likeBlog.UserId);
+            }
 
-            return await likeBlogs;
+            return likes;
         }
 
         // ******** update like ********

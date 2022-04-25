@@ -105,6 +105,7 @@ namespace SoftwareStudioBlog.Controllers
             {   
                 if(comment.Username == com.Username)
                 {
+                    com.Img = comment.Img;
                     com.Message = comment.Message;
                     com.CreatedDate = DateTime.Now;
                     _context.Entry(com).State = EntityState.Modified;

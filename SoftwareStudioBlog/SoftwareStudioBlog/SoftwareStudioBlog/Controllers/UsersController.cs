@@ -74,9 +74,10 @@ namespace SoftwareStudioBlog.Controllers
         public async Task<IActionResult> PutUser(int id, User user)
         {
             var u = await _context.User.FindAsync(id);
-            if (u.Password == user.Password)
+            if (u.Password == user.Password || (u.IsAdmin == "True" && u.Password == user.Password))
             {
                 u.Img = user.Img;
+                u.IsAdmin = user.IsAdmin;
                 _context.Entry(u).State = EntityState.Modified;
 
                 try

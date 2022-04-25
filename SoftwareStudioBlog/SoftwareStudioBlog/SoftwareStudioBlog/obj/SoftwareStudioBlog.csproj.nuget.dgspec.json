@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\_GitHub\\Clone\\BackendSoftStu\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog.csproj": {}
+    "D:\\GitHub\\BackendSoftStu\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog.csproj": {}
   },
   "projects": {
-    "D:\\_GitHub\\Clone\\BackendSoftStu\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog.csproj": {
+    "D:\\GitHub\\BackendSoftStu\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\_GitHub\\Clone\\BackendSoftStu\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog.csproj",
+        "projectUniqueName": "D:\\GitHub\\BackendSoftStu\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog.csproj",
         "projectName": "SoftwareStudioBlog",
-        "projectPath": "D:\\_GitHub\\Clone\\BackendSoftStu\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog.csproj",
-        "packagesPath": "C:\\Users\\N115P\\.nuget\\packages\\",
-        "outputPath": "D:\\_GitHub\\Clone\\BackendSoftStu\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog\\obj\\",
+        "projectPath": "D:\\GitHub\\BackendSoftStu\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog.csproj",
+        "packagesPath": "C:\\Users\\Mhee\\.nuget\\packages\\",
+        "outputPath": "D:\\GitHub\\BackendSoftStu\\SoftwareStudioBlog\\SoftwareStudioBlog\\SoftwareStudioBlog\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\N115P\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Mhee\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -95,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

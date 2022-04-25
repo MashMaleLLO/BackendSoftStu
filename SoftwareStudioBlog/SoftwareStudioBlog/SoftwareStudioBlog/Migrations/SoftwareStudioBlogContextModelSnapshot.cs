@@ -72,6 +72,10 @@ namespace SoftwareStudioBlog.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Img")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IsHidden")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

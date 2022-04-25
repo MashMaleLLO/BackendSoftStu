@@ -12,8 +12,8 @@ using SoftwareStudioBlog.Data;
 namespace SoftwareStudioBlog.Migrations
 {
     [DbContext(typeof(SoftwareStudioBlogContext))]
-    [Migration("20220424092317_Mheepu")]
-    partial class Mheepu
+    [Migration("20220424194802_lnwmee007")]
+    partial class lnwmee007
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -73,6 +73,10 @@ namespace SoftwareStudioBlog.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Img")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IsHidden")
                         .IsRequired()

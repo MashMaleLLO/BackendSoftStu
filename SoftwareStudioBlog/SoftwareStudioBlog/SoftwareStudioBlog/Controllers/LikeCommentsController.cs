@@ -51,11 +51,16 @@ namespace SoftwareStudioBlog.Controllers
         // GET: api/LikeComments/getLikeComment/{commentId}
         // Get like by CommentId
         [HttpGet("getLikeComment/{commentId}")]
-        public async Task<ActionResult<IEnumerable<LikeComment>>> GetLikeByCommentId(int commentId)
+        public async Task<ActionResult<List<int>>> GetLikeByCommentId(int commentId)
         {
-            var likeComments = (from x in _context.LikeComment where x.CommentId == commentId select x).ToListAsync();
+            List<int> likes = new List<int>();
+            var likeComments = await (from x in _context.LikeComment where x.CommentId == commentId select x).ToListAsync();
+            foreach (var likeComment in  likeComments)
+            {
+                likes.Add(likeComment.UserId);
+            }
 
-            return await likeComments;
+            return likes;
         }
 
 
