@@ -1,5 +1,4 @@
-# Software Studio 
-## Blog Project - Backend
+# Software Studio Blog Project - Backend
 
 ## Install NuGet Package
 From the Tools menu > select NuGet Package Manager > Package Manager Console (PMC).
@@ -31,3 +30,8 @@ or
 
 #### Remove all migrations
 - just remove Migrations folder.
+
+## Contact
+Nontapan Rujirakal - <a href="nontapan.rujirakal@gmail.com">nontapan.rujirakal@gmail.com</a>
+
+Narawich Youbua - <a href="narawich49@gmail.com">narawich49@gmail.com</a>
